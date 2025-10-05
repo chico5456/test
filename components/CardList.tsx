@@ -17,6 +17,7 @@ type Queen = {
     highs: number;
     lows: number;
     bottoms: number;
+    top2s: number;
     isEliminated: boolean;
     scores: { episodeNumber: string | number; score: number }[];
     placements: any;

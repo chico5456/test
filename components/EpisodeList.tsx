@@ -60,7 +60,11 @@ const EpisodeList = ({
           return placement?.placement === "safe";
         });
 
-        const isFinale = ep.type?.toLowerCase().includes("finale");
+        const typeTokens = ep.type
+          ? ep.type.toLowerCase().split(",").map((t: string) => t.trim())
+          : [];
+        const isFinale = typeTokens.includes("finale");
+        const isSplitPremiereNonElim = typeTokens.includes("non elim") || typeTokens.includes("nonelim");
 
         return (
           <div
@@ -117,6 +121,14 @@ const EpisodeList = ({
                   >
                     Winner
                   </button>
+                  {isSplitPremiereNonElim && (
+                    <button
+                      className="px-3 py-1 text-xs rounded-full bg-purple-200 hover:bg-purple-300 transition"
+                      onClick={(e) => handleEventClick(e, ep.episodeNumber, "top2", ep.nonElimination || "")}
+                    >
+                      Top 2
+                    </button>
+                  )}
                   <button
                     className="px-3 py-1 text-xs rounded-full bg-red-200 hover:bg-red-300 transition"
                     onClick={(e) => handleEventClick(e, ep.episodeNumber, "bottom", ep.nonElimination || "")}
