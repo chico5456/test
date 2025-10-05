@@ -47,6 +47,16 @@ import { CSS } from "@dnd-kit/utilities";
 import Image from "next/image";
 
 type BuildCastQueen = Queen & { stats: QueenStats };
+type QueenStats = {
+  Acting: number;
+  Dance: number;
+  Comedy: number;
+  Design: number;
+  Runway: number;
+  Singing: number;
+};
+
+type BuildCastQueen = (typeof queens)[number] & { stats: QueenStats };
 
 const Page = () => {
   const [queenCards, setQueenCards] = useState<BuildCastQueen[]>([]);
@@ -123,12 +133,14 @@ const Page = () => {
     }
 
     let parsedQueens: Queen[] = [];
+    let parsedQueens: Array<(typeof queens)[number]> = [];
     let parsedEps: any[] = [];
 
     if (savedQueens) {
       parsedQueens = JSON.parse(savedQueens);
       parsedQueens.sort((a, b) => a.name.localeCompare(b.name));
       const hydratedQueens = parsedQueens.map<BuildCastQueen>((queen) => ({
+      const hydratedQueens: BuildCastQueen[] = parsedQueens.map((queen) => ({
         ...queen,
         stats: queen.stats ?? generateRandomStats(),
       }));
@@ -469,6 +481,7 @@ const Page = () => {
                   field="name"
                   type="queen"
                   onSelect={(queen: Queen) => {
+                  onSelect={(queen: (typeof queens)[number]) => {
                     setQueenCards((prev) => {
                       if (prev.some((q) => q.id === queen.id)) return prev;
                       const stats: QueenStats = queen.stats ?? generateRandomStats();
