@@ -11,25 +11,10 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
+import type { Queen as BaseQueen, QueenStats } from "@/constants/queenData";
 
-type QueenStats = {
-
-  Acting: number;
-  Dance: number;
-  Comedy: number;
-  Design: number;
-  Runway: number;
-  Singing: number;
-};
-
-type Queen = {
-  id: string;
-  name: string;
-  url: string;
-  urls?: string[];
+type Queen = BaseQueen & {
   urlObj?: string[];
-  franchise?: string;
-  seasons?: string;
   wins?: number;
   highs?: number;
   lows?: number;
