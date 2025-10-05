@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Search from "@/components/Search";
 import { queens, episodes, seasons, lipsyncs } from "@/constants/queenData";
+import type { Queen, QueenStats } from "@/constants/queenData";
 import QueenCard from "@/components/QueenCard";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
@@ -45,6 +46,7 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import Image from "next/image";
 
+type BuildCastQueen = Queen & { stats: QueenStats };
 type QueenStats = {
   Acting: number;
   Dance: number;
@@ -130,12 +132,14 @@ const Page = () => {
       setSeasonMode(savedMode);
     }
 
+    let parsedQueens: Queen[] = [];
     let parsedQueens: Array<(typeof queens)[number]> = [];
     let parsedEps: any[] = [];
 
     if (savedQueens) {
       parsedQueens = JSON.parse(savedQueens);
       parsedQueens.sort((a, b) => a.name.localeCompare(b.name));
+      const hydratedQueens = parsedQueens.map<BuildCastQueen>((queen) => ({
       const hydratedQueens: BuildCastQueen[] = parsedQueens.map((queen) => ({
         ...queen,
         stats: queen.stats ?? generateRandomStats(),
@@ -476,6 +480,7 @@ const Page = () => {
                   entity={queens}
                   field="name"
                   type="queen"
+                  onSelect={(queen: Queen) => {
                   onSelect={(queen: (typeof queens)[number]) => {
                     setQueenCards((prev) => {
                       if (prev.some((q) => q.id === queen.id)) return prev;

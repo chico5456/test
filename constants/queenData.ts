@@ -1,4 +1,23 @@
-export const queens = [
+export type QueenStats = {
+  Acting: number;
+  Dance: number;
+  Comedy: number;
+  Design: number;
+  Runway: number;
+  Singing: number;
+};
+
+export type Queen = {
+  id: string;
+  seasons: string;
+  name: string;
+  franchise: string;
+  url: string;
+  urls?: string[];
+  stats?: QueenStats;
+};
+
+export const queens: Queen[] = [
   {
     "id": "ynhgkYtxYcYEicg4EDU0",
     "seasons": "1",
