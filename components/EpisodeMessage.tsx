@@ -4,6 +4,7 @@ const EVENT_LBLS: Record<string, string> = {
     announceSafe: "Safe Queens",
     winner: "Winner",
     high: "High Queens",
+    top2: "Top 2 Queens",
     bottom: "Bottom Queens",
     bottom2: "Bottom 2",
     eliminated: "Eliminated Queen",

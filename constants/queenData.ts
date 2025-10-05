@@ -1,4 +1,23 @@
-export const queens = [
+export type QueenStats = {
+  Acting: number;
+  Dance: number;
+  Comedy: number;
+  Design: number;
+  Runway: number;
+  Singing: number;
+};
+
+export type Queen = {
+  id: string;
+  seasons: string;
+  name: string;
+  franchise: string;
+  url: string;
+  urls?: string[];
+  stats?: QueenStats;
+};
+
+export const queens: Queen[] = [
   {
     "id": "ynhgkYtxYcYEicg4EDU0",
     "seasons": "1",
@@ -1389,91 +1408,195 @@ export const queens = [
     url: 'https://static.wikia.nocookie.net/logosrupaulsdragrace/images/3/36/DenaliS13CastMug.jpg/revision/latest/scale-to-width-down/105?cb=20210902181626',
     seasons: '13,AS10',
     name: "Denali",
-    franchise: 'US'
+    franchise: 'US',
+    stats: {
+      Acting: 70,
+      Dance: 95,
+      Comedy: 65,
+      Design: 60,
+      Runway: 80,
+      Singing: 55,
+    }
   },
   {
     id: 'VDzrunSAdFpQsPiB22dI',
     url: 'https://static.wikia.nocookie.net/logosrupaulsdragrace/images/0/0b/ElliottWith2T%27sS13CastMug.jpg/revision/latest/scale-to-width-down/105?cb=20210902181745',
     seasons: '13',
     name: "Elliott With 2 Ts",
-    franchise: 'US'
+    franchise: 'US',
+    stats: {
+      Acting: 55,
+      Dance: 85,
+      Comedy: 50,
+      Design: 45,
+      Runway: 70,
+      Singing: 60,
+    }
   },
   {
     id: '4fCfJozI92fuhdLs2UDb',
     url: 'https://static.wikia.nocookie.net/logosrupaulsdragrace/images/a/a7/JoeyJayS13CastMug.jpg/revision/latest/scale-to-width-down/105?cb=20210902182023',
     seasons: '13',
     name: "Joey Jay",
-    franchise: 'US'
+    franchise: 'US',
+    stats: {
+      Acting: 50,
+      Dance: 70,
+      Comedy: 55,
+      Design: 40,
+      Runway: 60,
+      Singing: 65,
+    }
   },
   {
     id: 'auLfJozI92gMgdLs2UDb',
     url: 'https://static.wikia.nocookie.net/logosrupaulsdragrace/images/b/bd/GottmikS13CastMug.jpg/revision/latest/scale-to-width-down/105?cb=20210902181947',
     seasons: '13,AS9',
     name: "Gottmik",
-    franchise: 'US'
+    franchise: 'US',
+    stats: {
+      Acting: 80,
+      Dance: 60,
+      Comedy: 85,
+      Design: 90,
+      Runway: 95,
+      Singing: 50,
+    }
   },
   {
     id: '7iFdqehdbL0JjOcwdWBy',
     url: 'https://static.wikia.nocookie.net/logosrupaulsdragrace/images/e/e5/KahmoraHallS13CastMug.jpg/revision/latest/scale-to-width-down/105?cb=20210902182128',
     seasons: '13',
     name: "Kahmora Hall",
-    franchise: 'US'
+    franchise: 'US',
+    stats: {
+      Acting: 45,
+      Dance: 40,
+      Comedy: 35,
+      Design: 70,
+      Runway: 90,
+      Singing: 40,
+    }
   },
   {
     id: 'rhOn7RHexb27Hx02pd4u',
     url: 'https://static.wikia.nocookie.net/logosrupaulsdragrace/images/6/63/KandyMuseS13CastMug.jpg/revision/latest/scale-to-width-down/105?cb=20210902182209',
     seasons: '13,AS8',
     name: "Kandy Muse",
-    franchise: 'US'
+    franchise: 'US',
+    stats: {
+      Acting: 75,
+      Dance: 65,
+      Comedy: 80,
+      Design: 55,
+      Runway: 70,
+      Singing: 50,
+    }
   },
   {
     id: 'G5HVACaVRzQcVzDRbzlY',
     url: 'https://static.wikia.nocookie.net/logosrupaulsdragrace/images/e/e0/LaLaRiS13CastMug.jpg/revision/latest/scale-to-width-down/105?cb=20210902182255',
     seasons: '13,AS8',
     name: "Lala Ri",
-    franchise: 'US'
+    franchise: 'US',
+    stats: {
+      Acting: 65,
+      Dance: 80,
+      Comedy: 60,
+      Design: 45,
+      Runway: 65,
+      Singing: 55,
+    }
   },
   {
     id: 'G4fVACaVRzQcVzDRbzlY',
     url: 'https://static.wikia.nocookie.net/logosrupaulsdragrace/images/4/4f/OliviaLuxS13CastMug.jpg/revision/latest/scale-to-width-down/105?cb=20210902182353',
     seasons: '13,AS10',
     name: "Olivia Luxx",
-    franchise: 'US'
+    franchise: 'US',
+    stats: {
+      Acting: 70,
+      Dance: 75,
+      Comedy: 68,
+      Design: 62,
+      Runway: 72,
+      Singing: 85,
+    }
   },
   {
     id: '5jQ3YcBfH0fYLJZupGQL',
     url: 'https://static.wikia.nocookie.net/logosrupaulsdragrace/images/7/74/Ros%C3%A9S13CastMug.jpg/revision/latest/scale-to-width-down/105?cb=20210902182428',
     seasons: '13',
     name: "Rosé",
-    franchise: 'US'
+    franchise: 'US',
+    stats: {
+      Acting: 88,
+      Dance: 80,
+      Comedy: 82,
+      Design: 70,
+      Runway: 78,
+      Singing: 92,
+    }
   },
   {
     id: '5j4f5cBfH0fYLJZupGQL',
     url: 'https://static.wikia.nocookie.net/logosrupaulsdragrace/images/7/7d/SymoneS13CastMug.jpg/revision/latest/scale-to-width-down/105?cb=20211216235826',
     seasons: '13',
     name: "Symone",
-    franchise: 'US'
+    franchise: 'US',
+    stats: {
+      Acting: 85,
+      Dance: 70,
+      Comedy: 90,
+      Design: 65,
+      Runway: 88,
+      Singing: 60,
+    }
   },
   {
     id: 'tKLXASuGPeb05fVfW55Y',
     url: 'https://static.wikia.nocookie.net/logosrupaulsdragrace/images/3/35/TamishaImanS13CastMug.jpg/revision/latest/scale-to-width-down/105?cb=20210902182545',
     seasons: '13',
     name: "Tamisha Iman",
-    franchise: 'US'
+    franchise: 'US',
+    stats: {
+      Acting: 72,
+      Dance: 68,
+      Comedy: 62,
+      Design: 58,
+      Runway: 75,
+      Singing: 65,
+    }
   },
   {
     id: 'E0PWgyI0x3sQ4ucHxhe4',
     url: 'https://static.wikia.nocookie.net/logosrupaulsdragrace/images/4/44/TinaBurnerS13CastMug.jpg/revision/latest/scale-to-width-down/105?cb=20210902182624',
     seasons: '13,AS10',
     name: "Tina Burner",
-    franchise: 'US'
+    franchise: 'US',
+    stats: {
+      Acting: 78,
+      Dance: 60,
+      Comedy: 85,
+      Design: 55,
+      Runway: 60,
+      Singing: 70,
+    }
   },
   {
     id: 'jpacB8Bl9pJuxad0nSxA',
     url: 'https://static.wikia.nocookie.net/logosrupaulsdragrace/images/d/dc/UticaQueenS13CastMug.jpg/revision/latest/scale-to-width-down/105?cb=20210902182704',
     seasons: '13',
     name: "Utica Queen",
-    franchise: 'US'
+    franchise: 'US',
+    stats: {
+      Acting: 65,
+      Dance: 70,
+      Comedy: 72,
+      Design: 90,
+      Runway: 85,
+      Singing: 58,
+    }
   },
   {
     id: 'ZsPFngAr2xqFXDayn1Vb',
