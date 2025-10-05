@@ -38,6 +38,7 @@ const SimLayout = (
       bottoms: 0,
       highs: 0,
       lows: 0,
+      top2s: 0,
       isEliminated: false,
       stats: q.stats ?? {
         Acting: Math.floor(Math.random() * 100) + 1,
@@ -62,7 +63,13 @@ const SimLayout = (
     const postHistory: { [key: number]: any[] } = {};
     const sortedEpisodes = [...episodes].sort((a, b) => a.episodeNumber - b.episodeNumber);
 
-    sortedEpisodes.forEach(e => { e.nonElimination = false; }); // Reset all nonElim flags
+    sortedEpisodes.forEach(e => {
+      const typeTokens = e.type
+        ? e.type.toLowerCase().split(",").map((t: string) => t.trim())
+        : [];
+      const isNonElimType = typeTokens.includes("non elim") || typeTokens.includes("nonelim");
+      e.nonElimination = isNonElimType;
+    }); // Reset all nonElim flags, respecting forced non-elim types
 
     if (seasonMode === "sp") { // for split premiere, shuffle the queens into 2 seperate groups
       const shuffled = [...trackRecord].sort(() => Math.random() - 0.5);
@@ -168,10 +175,16 @@ const SimLayout = (
         switch (episodeEvent) {
           case 'announceSafe':
             return placement?.placement === 'safe';
-          case 'winner':
+          case 'winner': {
+            if (isNonElim) {
+              return placement?.placement === 'win' || placement?.placement === 'top2';
+            }
             return placement?.placement === 'win';
+          }
           case 'high':
             return placement?.placement === 'high';
+          case 'top2':
+            return placement?.placement === 'top2';
           case 'bottom':
             return placement?.placement === 'low' || placement?.placement === 'bottom';
           case 'bottom2':
@@ -226,18 +239,38 @@ const SimLayout = (
     switch (event) {
       case 'announceSafe':
         return names.length === 1 ? `${names[0]} is declared safe.` : `${others.join(', ')}, and ${last} are declared safe.`;
-      case 'winner':
+      case 'winner': {
+        const placementsForEpisode = queens.map((q) =>
+          q.placements.find((p: Placement) => Number(p.episodeNumber) === Number(episodeNumber))
+        );
+        const top2Queen = placementsForEpisode.find((p) => p?.placement === 'top2');
         if (episode?.title.toLowerCase().includes("finale")) { // Finale special case
           return names.length === 1
             ? `${names[0]} is crowned the WINNER of the season! `
             : `${others.join(', ')}, and ${last} are crowned co-winners of the season!`;
         }
         // Normal weekly challenge
+        if (top2Queen) {
+          const winnerName = queens.find((q) =>
+            q.placements.some((p: Placement) => Number(p.episodeNumber) === Number(episodeNumber) && p.placement === 'win')
+          )?.name;
+          const runnerUpName = queens.find((q) =>
+            q.placements.some((p: Placement) => Number(p.episodeNumber) === Number(episodeNumber) && p.placement === 'top2')
+          )?.name;
+          if (winnerName && runnerUpName) {
+            return `${winnerName} wins the lipsync for the win, while ${runnerUpName} earns a Top 2 placement.`;
+          }
+        }
         return names.length === 1
           ? `${names[0]} is declared the winner of this week's Maxi Challenge!`
           : `${others.join(', ')}, and ${last} are declared winners!`;
+      }
       case 'high':
         return names.length === 1 ? `${names[0]} has placed high.` : `${others.join(', ')}, and ${last} have placed high.`;
+      case 'top2':
+        return names.length === 1
+          ? `${names[0]} earns a Top 2 placement and will lipsync for the win.`
+          : `${others.join(', ')}, and ${last} earn Top 2 placements and will lipsync for the win.`;
       case 'bottom':
         return names.length === 1 ? `${names[0]} has placed low.` : `${others.join(', ')}, and ${last} have placed low.`;
       case 'bottom2':

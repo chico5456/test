@@ -468,7 +468,7 @@ const Page = () => {
                         ...prev,
                         {
                           ...queen,
-                          stats: generateRandomStats(),
+                          stats: queen.stats ?? generateRandomStats(),
                         },
                       ];
                     });

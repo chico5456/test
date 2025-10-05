@@ -21,6 +21,7 @@ type Queen = {
   placements: { episodeNumber: number | string; placement: string }[];
   url: string;
   wins: number;
+  top2s?: number;
   highs: number;
   lows: number;
   bottoms: number;
@@ -101,6 +102,8 @@ const SeasonTrackRecordTable = ({
         return "WIN";
       case "high":
         return "HIGH";
+      case "top2":
+        return "TOP2";
       case "safe":
         return "SAFE";
       case "low":
@@ -162,6 +165,7 @@ const SeasonTrackRecordTable = ({
   });
 
   const maxWins = Math.max(...queens.map((q) => q.wins));
+  const maxTop2s = Math.max(...queens.map((q) => q.top2s ?? 0));
   const maxHighs = Math.max(...queens.map((q) => q.highs));
   const maxLows = Math.max(...queens.map((q) => q.lows));
   const maxBottoms = Math.max(...queens.map((q) => q.bottoms));
@@ -199,6 +203,7 @@ const SeasonTrackRecordTable = ({
                 </TableHead>
               ))}
               <TableHead className="text-center">Wins</TableHead>
+              <TableHead className="text-center">Top 2</TableHead>
               <TableHead className="text-center">Highs</TableHead>
               <TableHead className="text-center">Lows</TableHead>
               <TableHead className="text-center">Bottoms</TableHead>
@@ -248,6 +253,7 @@ const SeasonTrackRecordTable = ({
                           ${placement === "HIGH" ? "bg-sky-300 text-black-200" : ""}
                           ${placement === "WIN" ? "bg-blue-400 text-black-200" : ""}
                           ${placement === "LOW" ? "bg-pink-200 text-black-200" : ""}
+                          ${placement === "TOP2" ? "bg-purple-200 text-black-200" : ""}
                           ${placement === "BTM2" ? "bg-red-300 text-black-200" : ""}
                           ${placement === "WINNER" ? "sparkle-gold" : ""}
                           ${placement === "RUNNER-UP" ? "bg-green-200 text-black font-medium" : ""}
@@ -265,6 +271,19 @@ const SeasonTrackRecordTable = ({
                   >
                     {q.wins}{" "}
                     {q.wins === maxWins && <FontAwesomeIcon icon={faCrown} />}
+                  </TableCell>
+
+                  <TableCell
+                    className={`text-center ${
+                      (q.top2s ?? 0) === maxTop2s && maxTop2s > 0
+                        ? "ml-1 bg-yellow-200 font-bold"
+                        : ""
+                    }`}
+                  >
+                    {q.top2s ?? 0}{" "}
+                    {(q.top2s ?? 0) === maxTop2s && maxTop2s > 0 && (
+                      <FontAwesomeIcon icon={faCrown} />
+                    )}
                   </TableCell>
 
                   <TableCell

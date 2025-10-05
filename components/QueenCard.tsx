@@ -18,6 +18,7 @@ type QueenStats = {
   Dance: number;
   Comedy: number;
   Design: number;
+  Runway: number;
   Singing: number;
 };
 
@@ -33,6 +34,7 @@ type Queen = {
   highs?: number;
   lows?: number;
   bottoms?: number;
+  top2s?: number;
   isEliminated?: boolean;
   stats?: QueenStats;
 };
@@ -131,6 +133,7 @@ const QueenCard = ({ q,
 
         <div className="grid grid-cols-2 gap-2 text-sm text-gray-700 text-center">
           {q.wins != null && (<p>Wins: {q.wins}</p>)}
+          {q.top2s != null && (<p>Top 2: {q.top2s}</p>)}
           {q.highs != null && (<p>Highs: {q.highs}</p>)}
           {q.lows != null && (<p>Lows: {q.lows}</p>)}
           {q.bottoms != null && (<p>Bottoms: {q.bottoms}</p>)}
