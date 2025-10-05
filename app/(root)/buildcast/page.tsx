@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Search from "@/components/Search";
 import { queens, episodes, seasons, lipsyncs } from "@/constants/queenData";
+import type { Queen, QueenStats } from "@/constants/queenData";
 import QueenCard from "@/components/QueenCard";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
@@ -45,8 +46,10 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import Image from "next/image";
 
+type BuildCastQueen = Queen & { stats: QueenStats };
+
 const Page = () => {
-  const [queenCards, setQueenCards] = useState<typeof queens>([]);
+  const [queenCards, setQueenCards] = useState<BuildCastQueen[]>([]);
   const [episodeCards, setEpisodeCards] = useState<typeof episodes>([]);
   const [activeTab, setActiveTab] = useState("general");
   const [minEps, setMinEps] = useState(0);
@@ -60,7 +63,7 @@ const Page = () => {
   const [isLoading, setIsLoading] = useState(true); // fix loading issues with the big red Xs
   const router = useRouter();
 
-  const generateRandomStats = () => ({
+  const generateRandomStats = (): QueenStats => ({
     Acting: Math.floor(Math.random() * 101),
     Dance: Math.floor(Math.random() * 101),
     Comedy: Math.floor(Math.random() * 101),
@@ -119,13 +122,17 @@ const Page = () => {
       setSeasonMode(savedMode);
     }
 
-    let parsedQueens: any[] = [];
+    let parsedQueens: Queen[] = [];
     let parsedEps: any[] = [];
 
     if (savedQueens) {
-      parsedQueens = JSON.parse(savedQueens);
-      parsedQueens.sort((a: any, b: any) => a.name.localeCompare(b.name));
-      setQueenCards(parsedQueens);
+      parsedQueens = JSON.parse(savedQueens) as Queen[];
+      parsedQueens.sort((a, b) => a.name.localeCompare(b.name));
+      const hydratedQueens: BuildCastQueen[] = parsedQueens.map((queen) => ({
+        ...queen,
+        stats: queen.stats ?? generateRandomStats(),
+      }));
+      setQueenCards(hydratedQueens);
     }
 
     if (savedEpisodes) {
@@ -461,16 +468,12 @@ const Page = () => {
                   entity={queens}
                   field="name"
                   type="queen"
-                  onSelect={(queen) => {
+                  onSelect={(queen: Queen) => {
                     setQueenCards((prev) => {
                       if (prev.some((q) => q.id === queen.id)) return prev;
-                      return [
-                        ...prev,
-                        {
-                          ...queen,
-                          stats: generateRandomStats(),
-                        },
-                      ];
+                      const stats: QueenStats = queen.stats ?? generateRandomStats();
+                      const updatedQueen: BuildCastQueen = { ...queen, stats };
+                      return [...prev, updatedQueen];
                     });
                   }}
                 />
@@ -484,10 +487,18 @@ const Page = () => {
                       onRemove={handleRemoveQueen}
                       onUpdateStats={(id, updatedStats) => {
                         setQueenCards((prev) =>
-                          prev.map((q) =>
-                            // @ts-expect-error girllll like
-                            q.id === id ? { ...q, stats: { ...(q.stats ?? {}), ...updatedStats } } : q
-                          )
+                          prev.map((q) => {
+                            if (q.id !== id) {
+                              return q;
+                            }
+
+                            const mergedStats: QueenStats = {
+                              ...q.stats,
+                              ...updatedStats,
+                            };
+
+                            return { ...q, stats: mergedStats };
+                          })
                         );
                       }}
                     />

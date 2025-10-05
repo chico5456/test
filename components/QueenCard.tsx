@@ -11,28 +11,15 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
+import type { Queen as BaseQueen, QueenStats } from "@/constants/queenData";
 
-type QueenStats = {
-
-  Acting: number;
-  Dance: number;
-  Comedy: number;
-  Design: number;
-  Singing: number;
-};
-
-type Queen = {
-  id: string;
-  name: string;
-  url: string;
-  urls?: string[];
+type Queen = BaseQueen & {
   urlObj?: string[];
-  franchise?: string;
-  seasons?: string;
   wins?: number;
   highs?: number;
   lows?: number;
   bottoms?: number;
+  top2s?: number;
   isEliminated?: boolean;
   stats?: QueenStats;
 };
@@ -131,6 +118,7 @@ const QueenCard = ({ q,
 
         <div className="grid grid-cols-2 gap-2 text-sm text-gray-700 text-center">
           {q.wins != null && (<p>Wins: {q.wins}</p>)}
+          {q.top2s != null && (<p>Top 2: {q.top2s}</p>)}
           {q.highs != null && (<p>Highs: {q.highs}</p>)}
           {q.lows != null && (<p>Lows: {q.lows}</p>)}
           {q.bottoms != null && (<p>Bottoms: {q.bottoms}</p>)}
